@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+
+    <h1>Incremento salarial oficio empleados</h1>
+
+    <label>Seleccione un oficio:</label>
+    <select id="seleccion">
+    </select>
+
+    <hr/>
+
+    <label>Incremeneto salarial:</label>
+    <input type="text" id="cajanumero">
+
+    <hr/>
+
+    <button id="boton">
+        Incrementar salarios
+    </button>
+
+    <hr/>
+
+    <table border="1" id="tablasalarios">
+        <thead>
+            <tr>
+                <th>Apellido</th>
+                <th>Oficio</th>
+                <th>Salario</th>
+            </tr>
+        </thead>
+        <tbody>
+        </tbody>
+    </table>
+
+    <script src="./jquery-3.6.1.min.js"></script>
+    <script>
+
+        $(document).ready(function(){
+            //variable de la url
+        var url = "https://apiempleadosaction.azurewebsites.net/";
+        
+        //crear variabe request haciendo la lamada a la api
+        var request = "/api/Empleados/GetOficios/oficios";
+        $("#seleccion").change(function(){
+        //hacer la llamada de ajax para recuperar 
+            $.ajax({
+                "url": url + request
+                ,"method": "GET"
+                ,"dataType":"json"
+                ,success:function(data){
+                    console.log(data);
+                       
+                            //RECORREMOS TODOS LOS JUGADORES
+                            $.each(data, function(index,oficio){
+                                var opt1 = $("<option>", { "text": oficio.ANALISTA });
+                                var opt2 = $("<option>", { "text": oficio.DIRECTOR });
+                                var opt3 = $("<option>", { "text": oficio.EMPLEADO });
+                                var opt4 = $("<option>", { "text": oficio.PRESIDENTE });
+                                var opt5 = $("<option>", { "text": oficio.VENDEDOR });
+                                
+                                $(select).append(opt1);
+                                $(select).append(opt2);
+                                $(select).append(opt3);
+                                $(select).append(opt4);
+                                $(select).append(opt5);
+                                
+                            });
+                
+                },"error":function(error){
+                        console.log("Error servicio CARGAR");
+                    }
+                    
+            });
+        })
+            
+            
+                    
+               
+        });
+
+
+    </script>
+</body>
+</html>
